@@ -1,0 +1,257 @@
+:root{
+  --bg-800: #07102a;
+  --card-bg: rgba(10,14,28,0.55);
+  --glass: rgba(255,255,255,0.03);
+  --muted: #9aa6c0;
+  --text: #e6eef9;
+  --accent-1: #7c5cff;
+  --accent-2: #00d4ff;
+  --danger: #ff6b6b;
+  --success: #2dd4bf;
+  --glass-border: rgba(255,255,255,0.06);
+  --shadow-lg: 0 18px 50px rgba(2,6,23,0.6);
+}
+
+/* Card + glass surface */
+.order-form.card, .user-form.card {
+  padding: 26px;
+  position: relative;
+  overflow: hidden;
+  border-radius: 14px;
+  background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
+  border: 1px solid var(--glass-border);
+  backdrop-filter: blur(8px) saturate(120%);
+  box-shadow: var(--shadow-lg);
+  transition: transform .18s cubic-bezier(.2,.9,.2,1), box-shadow .18s ease;
+}
+.order-form.card:hover, .user-form.card:hover { transform: translateY(-6px); box-shadow: 0 28px 70px rgba(2,6,23,0.66); }
+
+/* decorative soft glow */
+.order-form.card::before, .user-form.card::before {
+  content: "";
+  position: absolute;
+  left: -30%;
+  top: -40%;
+  width: 220%;
+  height: 260px;
+  background: radial-gradient(600px 120px at 20% 20%, rgba(124,92,255,0.12), transparent 20%),
+              radial-gradient(500px 120px at 80% 40%, rgba(0,212,255,0.08), transparent 18%);
+  transform: rotate(-10deg);
+  filter: blur(32px);
+  pointer-events: none;
+  mix-blend-mode: screen;
+  opacity: 0.85;
+  z-index: 0;
+}
+
+/* Header */
+.order-form h2, .user-form h2 {
+  margin: 0 0 14px;
+  font-size: 20px;
+  color: var(--text);
+  z-index: 2;
+  position: relative;
+  letter-spacing: -0.2px;
+}
+
+/* form grid */
+.order-form form, .user-form form {
+  display: grid;
+  gap: 14px;
+  position: relative;
+  z-index: 2;
+  grid-template-columns: 1fr 1fr;
+}
+@media (max-width:720px) {
+  .order-form form, .user-form form { grid-template-columns: 1fr; }
+}
+
+/* labels + floating hints */
+.order-form label, .user-form label {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  color: var(--muted);
+  font-size: 13px;
+  position: relative;
+  font-weight: 700;
+  letter-spacing: 0.4px;
+  text-transform: none;
+}
+.order-form .field, .user-form .field {
+  display:flex;
+  flex-direction:column;
+  gap:8px;
+}
+
+.order-form input[type="text"],
+.user-form input[type="text"],
+.order-form input[type="email"],
+.user-form input[type="email"],
+.order-form input[type="password"],
+.user-form input[type="password"],
+.order-form input[type="number"],
+.user-form input[type="number"],
+.order-form input[type="date"],
+.user-form input[type="date"],
+.order-form input[type="datetime-local"],
+.user-form input[type="datetime-local"],
+.order-form select,
+.user-form select,
+.order-form textarea,
+.user-form textarea {
+  width: 100%;
+  padding: 14px 16px;
+  border-radius: 10px;
+  border: 1.5px solid rgba(154,107,255,0.18);
+  background: linear-gradient(135deg, rgba(6,10,22,0.7), rgba(8,12,28,0.5));
+  color: var(--text);
+  outline: none;
+  font-size: 15px;
+  font-weight: 500;
+  transition: all .18s cubic-bezier(0.4, 0, 0.2, 1);
+  backdrop-filter: blur(6px) saturate(110%);
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  z-index: 1;
+  margin-top: 6px;
+  letter-spacing: 0.3px;
+}
+
+.order-form select, .user-form select {
+  background-image: linear-gradient(45deg, transparent 50%, var(--accent-2) 50%),
+                    linear-gradient(135deg, var(--accent-2) 50%, transparent 50%);
+  background-position: calc(100% - 18px) calc(1em + 2px),
+                       calc(100% - 13px) calc(1em + 2px);
+  background-size: 6px 6px, 6px 6px;
+  background-repeat: no-repeat;
+  padding-right: 42px;
+}
+
+.order-form textarea, .user-form textarea {
+  min-height: 100px;
+  resize: vertical;
+  line-height: 1.5;
+  font-weight: 500;
+}
+
+/* subtle hover/focus */
+.order-form input:hover,
+.user-form input:hover,
+.order-form select:hover,
+.user-form select:hover,
+.order-form textarea:hover,
+.user-form textarea:hover {
+  border-color: rgba(154,107,255,0.3);
+  background: linear-gradient(135deg, rgba(10,14,30,0.75), rgba(12,18,36,0.58));
+  transform: translateY(-2px);
+}
+.order-form input:focus,
+.user-form input:focus,
+.order-form select:focus,
+.user-form select:focus,
+.order-form textarea:focus,
+.user-form textarea:focus {
+  box-shadow: 0 0 0 3px rgba(154,107,255,0.12), 0 12px 52px rgba(154,107,255,0.16), 0 2px 20px rgba(0,240,255,0.06);
+  border-color: rgba(154,107,255,0.9);
+  background: linear-gradient(135deg, rgba(12,16,32,0.8), rgba(14,20,40,0.65));
+  transform: translateY(-4px);
+}
+
+/* placeholders */
+.order-form input::placeholder,
+.user-form input::placeholder,
+.order-form textarea::placeholder,
+.user-form textarea::placeholder {
+  color: rgba(200,210,230,0.35);
+  font-weight: 400;
+}
+
+.form-actions {
+  display:flex;
+  gap: 12px;
+  margin-top: 8px;
+  align-items: center;
+  grid-column: 1 / -1;
+}
+
+.order-form button, .user-form button {
+  padding: 11px 16px;
+  border-radius: 12px;
+  border: none;
+  cursor: pointer;
+  background: linear-gradient(90deg, var(--accent-1), var(--accent-2));
+  color: white;
+  font-weight: 800;
+  letter-spacing: 0.2px;
+  box-shadow: 0 14px 40px rgba(124,92,255,0.14);
+  transition: transform .12s cubic-bezier(.2,.9,.2,1), box-shadow .12s ease, opacity .12s ease;
+}
+.order-form button:hover, .user-form button:hover { transform: translateY(-3px) scale(1.01); box-shadow: 0 22px 56px rgba(124,92,255,0.22); }
+.order-form button:active, .user-form button:active { transform: translateY(1px) scale(.995); }
+.order-form button:disabled, .user-form button:disabled { opacity: 0.6; cursor: not-allowed; box-shadow:none; }
+
+/* secondary button */
+.order-form button.secondary, .user-form button.secondary {
+  background: transparent;
+  color: var(--text);
+  border: 1px solid rgba(255,255,255,0.06);
+  padding: 10px 14px;
+  font-weight:700;
+}
+.order-form button.secondary:hover, .user-form button.secondary:hover {
+  background: rgba(255,255,255,0.03);
+  border-color: rgba(124,92,255,0.12);
+}
+
+/* tiny icon slots (use inline svgs in markup) */
+.btn-icon {
+  width:18px; height:18px; display:inline-flex; align-items:center; justify-content:center; margin-right:8px;
+  filter: drop-shadow(0 2px 6px rgba(0,0,0,0.45));
+}
+
+.form-error {
+  color: var(--danger);
+  background: linear-gradient(180deg, rgba(255,107,107,0.04), rgba(255,107,107,0.02));
+  border: 1px solid rgba(255,107,107,0.08);
+  padding: 10px;
+  border-radius: 10px;
+  font-size: 13px;
+  display:flex;
+  gap:8px;
+  align-items:center;
+}
+
+/* success small pill */
+.form-success {
+  color: var(--success);
+  background: rgba(45,212,191,0.06);
+  border: 1px solid rgba(45,212,191,0.06);
+  padding: 8px 10px;
+  border-radius: 999px;
+  font-weight:700;
+  font-size:13px;
+}
+
+/* responsive tweaks */
+@media (max-width:520px) {
+  .order-form.card { padding: 18px; border-radius:12px; }
+  .form-actions { flex-direction:column-reverse; align-items:stretch; }
+  .order-form button { width:100%; }
+}
+
+/* small floating label enhancement (requires markup changes if desired) */
+.field.floating {
+  position: relative;
+}
+.field.floating label {
+  position: absolute; left: 14px; top: 12px; transform-origin: left top; transition: all .15s ease; pointer-events: none; color: var(--muted);
+}
+.field.floating input:focus + label,
+.field.floating input:not(:placeholder-shown) + label,
+.field.floating textarea:focus + label,
+.field.floating textarea:not(:placeholder-shown) + label {
+  transform: translateY(-12px) scale(.85);
+  color: var(--accent-2);
+}
