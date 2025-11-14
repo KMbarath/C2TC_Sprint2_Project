@@ -45,7 +45,11 @@ export default function UserForm({ onCreate, onUpdate, editingUser, cancelEdit }
   const validate = () => {
     if (!username.trim()) return 'Username is required';
     if (!email.trim()) return 'Email is required';
-    if (!password.trim()) return 'Password is required';
+    // basic email pattern
+    const emailPattern = /^[^@\s]+@[^@\s]+\.[^@\s]+$/;
+    if (!emailPattern.test(email.trim())) return 'Enter a valid email address';
+    if (!editingUser && !password.trim()) return 'Password is required';
+    if (!editingUser && password.trim().length < 6) return 'Password must be at least 6 characters';
     return null;
   };
 
@@ -60,15 +64,19 @@ export default function UserForm({ onCreate, onUpdate, editingUser, cancelEdit }
     }
 
     const payload = {
-      ...(userId ? { userId: Number(userId) } : {}),
       username: username.trim(),
       email: email.trim(),
       password: password.trim(),
-      fullName: fullName.trim(),
-      dob: dob || null,
-      phone: phone.trim(),
-      address: address.trim(),
+      fullName: fullName.trim() || "",
+      dob: dob || "",
+      phone: phone.trim() || "",
+      address: address.trim() || "",
     };
+    
+    // Only include userId for updates (omit for new users)
+    if (editingUser && editingUser.userId) {
+      payload.userId = editingUser.userId;
+    }
 
     setSubmitting(true);
     try {
@@ -80,7 +88,10 @@ export default function UserForm({ onCreate, onUpdate, editingUser, cancelEdit }
       }
     } catch (err) {
       console.error('Save failed', err);
-      setFormError(err?.message || 'Failed to save user');
+      // Show a concise error message (first line / 300 chars)
+      const raw = err?.message || 'Failed to save user';
+      const short = String(raw).split(/\n|\\r\\n/)[0].slice(0, 300);
+      setFormError(short);
     } finally {
       setSubmitting(false);
     }
@@ -90,16 +101,17 @@ export default function UserForm({ onCreate, onUpdate, editingUser, cancelEdit }
     <div className="user-form card">
       <h2>{editingUser ? 'Edit User' : 'New User'}</h2>
       <form onSubmit={handleSubmit}>
-        <label>
-          User ID
-          <input
-            type="number"
-            value={userId}
-            onChange={(e) => setUserId(e.target.value)}
-            placeholder="Auto-generated"
-            disabled={!!editingUser}
-          />
-        </label>
+        {editingUser && (
+          <label>
+            User ID
+            <input
+              type="number"
+              value={userId}
+              readOnly
+              placeholder="Auto-generated"
+            />
+          </label>
+        )}
 
         <label>
           Username
@@ -167,7 +179,12 @@ export default function UserForm({ onCreate, onUpdate, editingUser, cancelEdit }
           />
         </label>
 
-        {formError && <div className="form-error" role="alert">{formError}</div>}
+        {formError && (
+          <div className="form-error" role="alert">
+            <button className="close" aria-label="Close error" onClick={() => setFormError(null)}>×</button>
+            {formError}
+          </div>
+        )}
 
         <div className="form-actions">
           <button type="submit" disabled={submitting}>

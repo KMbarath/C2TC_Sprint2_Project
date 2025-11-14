@@ -1,0 +1,35 @@
+// SPRING_ENTITY_FIX.txt
+
+// Example User entity adjustments (Java / Spring Data JPA)
+// Place these changes in your User entity class (where userId is defined).
+
+/*
+import jakarta.persistence.*;
+
+@Entity
+@Table(name = "users")
+public class User {
+
+    @Id
+    // Option A: Use IDENTITY if your DB column is serial/identity
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "user_id")
+    private Long userId;
+
+    // other fields (username, email, password...)
+
+    // getters / setters
+}
+*/
+
+// Controller: ensure POST does not pass an id to the repository
+/*
+@PostMapping
+public ResponseEntity<User> add(@RequestBody User user) {
+    user.setUserId(null); // force DB generation
+    User created = userService.save(user);
+    return ResponseEntity.status(HttpStatus.CREATED).body(created);
+}
+*/
+
+// If you use a DTO for create requests, omit id from the DTO so clients cannot send it.

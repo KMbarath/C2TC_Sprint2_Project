@@ -223,6 +223,26 @@
   align-items:center;
 }
 
+/* compact, dismissible error box */
+.form-error {
+  max-height: 140px;
+  overflow: auto;
+  white-space: pre-wrap;
+  padding: 12px 12px 12px 14px;
+  position: relative;
+}
+.form-error .close {
+  position: absolute;
+  right: 8px;
+  top: 8px;
+  background: transparent;
+  border: none;
+  color: rgba(255,255,255,0.7);
+  cursor: pointer;
+  font-weight: 800;
+}
+.form-error .close:hover { color: #fff; }
+
 /* success small pill */
 .form-success {
   color: var(--success);

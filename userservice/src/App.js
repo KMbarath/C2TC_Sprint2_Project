@@ -29,10 +29,12 @@ function App() {
   }, []);
 
   const handleCreate = async (user) => {
+    // Ensure we don't send a userId when creating a new user (database should assign it)
+    const { userId, ...payload } = user || {};
     await apiFetch("", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(user),
+      body: JSON.stringify(payload),
     });
     await fetchUsers();
   };
